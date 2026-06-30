@@ -54,6 +54,29 @@ const ProtectedRoute = ({ children, role }) => {
   return children;
 };
 
+// Smart root: redirect to /login if not logged in, /admin if admin, or public Home
+const SmartRoot = () => {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full border-4 border-slate-200 border-t-secondary animate-spin" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (user.role === 'admin') {
+    return <Navigate to="/admin" replace />;
+  }
+
+  return <PublicLayout><Home /></PublicLayout>;
+};
+
 // Workspace layout wrapper (holds sidebar & dashboard content area)
 const DashboardLayout = ({ children }) => {
   const { user } = useAuth();
@@ -88,7 +111,7 @@ function AppRoutes() {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
+      <Route path="/" element={<SmartRoot />} />
       <Route path="/services" element={<PublicLayout><Services /></PublicLayout>} />
       <Route path="/portfolio" element={<PublicLayout><Portfolio /></PublicLayout>} />
       <Route path="/portfolio/:slug" element={<PublicLayout><Portfolio /></PublicLayout>} />

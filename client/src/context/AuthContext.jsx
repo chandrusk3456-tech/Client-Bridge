@@ -11,6 +11,7 @@ import {
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase/config';
 import { useToast } from './ToastContext';
+import API_BASE from '../utils/apiBase';
 
 const AuthContext = createContext(null);
 
@@ -32,7 +33,7 @@ export const AuthProvider = ({ children }) => {
   // Sync session with the Express/Node/MongoDB backend
   const syncWithBackend = async (firebaseUser, role) => {
     try {
-      const res = await fetch('/api/auth/firebase-login', {
+      const res = await fetch(`${API_BASE}/api/auth/firebase-login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -202,7 +203,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       // 3. Update in MongoDB
-      const res = await fetch('/api/auth/profile', {
+      const res = await fetch(`${API_BASE}/api/auth/profile`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(profileData),
@@ -227,7 +228,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await signOut(auth);
       // Clear the local Express session
-      await fetch('/api/auth/logout', { method: 'POST' });
+      await fetch(`${API_BASE}/api/auth/logout`, { method: 'POST' });
       setUser(null);
       return true;
     } catch (err) {
