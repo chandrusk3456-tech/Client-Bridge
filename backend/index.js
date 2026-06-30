@@ -28,6 +28,7 @@ const server = http.createServer(app);
 const allowedOrigins = [
   'http://localhost:5173',
   'https://client-bridge-ruddy.vercel.app',
+  'https://client-bridge-1.onrender.com',
   ...(process.env.CLIENT_URL ? [process.env.CLIENT_URL] : []),
 ];
 
