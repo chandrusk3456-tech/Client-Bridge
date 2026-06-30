@@ -1,10 +1,11 @@
+import 'dotenv/config'; // ESM-safe: loads .env before all other modules
+
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv';
 import path from 'path';
 
 import connectDB from './config/db.js';
@@ -16,9 +17,6 @@ import blogRoutes from './routes/blogRoutes.js';
 import portfolioRoutes from './routes/portfolioRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
-
-// Load environment variables
-dotenv.config();
 
 // Connect Database
 connectDB();
@@ -132,7 +130,7 @@ app.get('/', (req, res) => {
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 server.listen(PORT, () => {
   console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
 });

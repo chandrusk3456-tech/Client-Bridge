@@ -1,11 +1,17 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/clientbridge');
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      dbName: "client_bridge",
+    });
+
+    console.log("✅ MongoDB Connected Successfully!");
+    console.log(`🌐 Host: ${conn.connection.host}`);
+    console.log(`📂 Database: ${conn.connection.name}`);
   } catch (error) {
-    console.error(`Database Connection Error: ${error.message}`);
+    console.error("❌ MongoDB Connection Failed");
+    console.error(error.message);
     process.exit(1);
   }
 };
