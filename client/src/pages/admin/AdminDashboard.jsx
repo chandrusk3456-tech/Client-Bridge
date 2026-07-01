@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DollarSign, FolderKanban, Users, Clock, AlertCircle, PlusCircle, Star } from 'lucide-react';
 import SkeletonLoader from '../../components/common/SkeletonLoader';
+import API_BASE from '../../utils/apiBase';
 
 export const AdminDashboard = () => {
   const [analytics, setAnalytics] = useState(null);
@@ -10,7 +11,7 @@ export const AdminDashboard = () => {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const res = await fetch('/api/admin/analytics');
+        const res = await fetch(`${API_BASE}/api/admin/analytics`);
         const data = await res.json();
         if (data.success) {
           setAnalytics(data.analytics);

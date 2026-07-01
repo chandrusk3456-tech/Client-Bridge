@@ -3,6 +3,7 @@ import { Star, CheckCircle, XCircle, Trash } from 'lucide-react';
 import SkeletonLoader from '../../components/common/SkeletonLoader';
 import Button from '../../components/common/Button';
 import { useToast } from '../../context/ToastContext';
+import API_BASE from '../../utils/apiBase';
 
 export const AdminReviews = () => {
   const { toast } = useToast();
@@ -11,7 +12,7 @@ export const AdminReviews = () => {
 
   const fetchReviews = async () => {
     try {
-      const res = await fetch('/api/admin/reviews');
+      const res = await fetch(`${API_BASE}/api/admin/reviews`);
       const data = await res.json();
       if (data.success) {
         setReviews(data.reviews);

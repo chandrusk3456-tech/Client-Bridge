@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
+import API_BASE from '../../utils/apiBase';
 import Input from '../../components/common/Input';
 import Button from '../../components/common/Button';
 import { Save, Camera, Loader2, Sparkles, Building2, PhoneCall, Send, Share2 } from 'lucide-react';
@@ -52,7 +53,7 @@ export const Profile = () => {
 
     setUploading(true);
     try {
-      const res = await fetch('/api/auth/upload', {
+      const res = await fetch(`${API_BASE}/api/auth/upload`, {
         method: 'POST',
         body: formData,
       });

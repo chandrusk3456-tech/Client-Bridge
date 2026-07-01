@@ -5,6 +5,7 @@ import Modal from '../../components/common/Modal';
 import Input from '../../components/common/Input';
 import Button from '../../components/common/Button';
 import { useToast } from '../../context/ToastContext';
+import API_BASE from '../../utils/apiBase';
 
 export const AdminPortfolio = () => {
   const { toast } = useToast();
@@ -32,7 +33,7 @@ export const AdminPortfolio = () => {
 
   const fetchPortfolio = async () => {
     try {
-      const res = await fetch('/api/portfolio');
+      const res = await fetch(`${API_BASE}/api/portfolio`);
       const data = await res.json();
       if (data.success) {
         setProjects(data.projects);
@@ -110,13 +111,13 @@ export const AdminPortfolio = () => {
     try {
       let res, data;
       if (editingProj) {
-        res = await fetch(`/api/portfolio/${editingProj._id}`, {
+        res = await fetch(`${API_BASE}/api/portfolio/${editingProj._id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
       } else {
-        res = await fetch('/api/portfolio', {
+        res = await fetch(`${API_BASE}/api/portfolio`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
@@ -141,7 +142,7 @@ export const AdminPortfolio = () => {
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this portfolio project?')) return;
     try {
-      const res = await fetch(`/api/portfolio/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE}/api/portfolio/${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         toast('Portfolio project deleted', 'success');

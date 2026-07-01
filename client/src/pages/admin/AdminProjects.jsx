@@ -5,6 +5,7 @@ import Modal from '../../components/common/Modal';
 import Input from '../../components/common/Input';
 import Button from '../../components/common/Button';
 import { useToast } from '../../context/ToastContext';
+import API_BASE from '../../utils/apiBase';
 
 export const AdminProjects = () => {
   const { toast } = useToast();
@@ -24,7 +25,7 @@ export const AdminProjects = () => {
 
   const fetchProjects = async () => {
     try {
-      const res = await fetch('/api/projects/admin/projects');
+      const res = await fetch(`${API_BASE}/api/projects/admin/projects`);
       const data = await res.json();
       if (data.success) {
         setProjects(data.projects);

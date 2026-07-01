@@ -5,6 +5,7 @@ import Modal from '../../components/common/Modal';
 import Input from '../../components/common/Input';
 import Button from '../../components/common/Button';
 import { useToast } from '../../context/ToastContext';
+import API_BASE from '../../utils/apiBase';
 
 export const AdminBlogs = () => {
   const { toast } = useToast();
@@ -27,7 +28,7 @@ export const AdminBlogs = () => {
 
   const fetchBlogs = async () => {
     try {
-      const res = await fetch('/api/blogs?includeDrafts=true');
+      const res = await fetch(`${API_BASE}/api/blogs?includeDrafts=true`);
       const data = await res.json();
       if (data.success) {
         setBlogs(data.posts);
@@ -90,13 +91,13 @@ export const AdminBlogs = () => {
     try {
       let res, data;
       if (editingPost) {
-        res = await fetch(`/api/blogs/${editingPost._id}`, {
+        res = await fetch(`${API_BASE}/api/blogs/${editingPost._id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
       } else {
-        res = await fetch('/api/blogs', {
+        res = await fetch(`${API_BASE}/api/blogs`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
@@ -121,7 +122,7 @@ export const AdminBlogs = () => {
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this article?')) return;
     try {
-      const res = await fetch(`/api/blogs/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE}/api/blogs/${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         toast('Article deleted successfully', 'success');
